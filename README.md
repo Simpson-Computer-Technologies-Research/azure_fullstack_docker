@@ -1,4 +1,4 @@
-# Azure SQL with Docker
+# Azure Full Stack with Docker
 
 Welcome! This is a repo with the necessary files to run a node frontend, Azure SQL Edge, and Azure Table Storage with Docker.
 
