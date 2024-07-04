@@ -6,7 +6,7 @@ Welcome! This is a repo with the necessary files to run a node frontend, Azure S
 
 These are the only things you need to worry about, everything else is already set up for you!
 
-- `.env` to update environment variables.
+- `.env` to update environment variables. If you update the `.env` for a specfic service, you must update the corresponding `Dockerfile` and the root `docker-compose.yml` file!
 
 - `frontend/index.ts` to update server logic.
 
