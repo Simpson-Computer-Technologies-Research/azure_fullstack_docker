@@ -1,13 +1,15 @@
 services:
   frontend:
-    container_name: yncu_hub
+    container_name: frontend
 
     # build with the Dockerfile in this directory
     build:
       context: ./frontend
+      args:
+        - NODE_ENV=$NODE_ENV
 
     ports:
-      - "${FRONTEND_PORT}:${FRONTEND_PORT}"
+      - "5173:5173"
 
     # when a file changes, sync it to the container
     develop:
@@ -16,10 +18,6 @@ services:
           path: .
           target: /app
 
-    # our env file (any variables in here will overwrite the ones above)
-    env_file:
-      - .env
-
   # Azure SQL Server from Dockerfile
   azure-sql-edge:
     # image: mcr.microsoft.com/azure-sql-edge:latest
@@ -27,23 +25,20 @@ services:
     networks:
       - azure-sql-edge
     ports:
-      - "${MSSQL_PORT}:${MSSQL_PORT}"
+      - "${MSSQL_SERVER_PORT}:${MSSQL_SERVER_PORT}"
     restart: always
-
-    #volumes:
-    #  - ./database/azure-sql-edge/db.sql:/docker-entrypoint-initdb.d/db.sql
-
-    # environment variables from .env
-    env_file:
-      - .env
 
     # build the image
     build:
       context: ./database/azure-sql-edge
       args:
-        - MSSQL_ACCEPT_EULA=$MSSQL_ACCEPT_EULA
+        - ACCEPT_EULA=$ACCEPT_EULA
+        - MSSQL_USER=$MSSQL_USER
         - MSSQL_SA_PASSWORD=$MSSQL_SA_PASSWORD
         - MSSQL_PID=$MSSQL_PID
+        - MSSQL_DATABASE=$MSSQL_DATABASE
+        - MSSQL_SERVER_HOST=$MSSQL_SERVER_HOST
+        - MSSQL_SERVER_PORT=$MSSQL_SERVER_PORT
 
     # when a file changes, sync it to the container
     develop:

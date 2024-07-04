@@ -12,3 +12,10 @@ BEGIN
     );
 END
 GO
+
+/** Insert a sample record **/
+IF NOT EXISTS (SELECT * FROM Users WHERE Id = 1)
+BEGIN
+    INSERT INTO Users (Id, Name, Age) VALUES (1, 'John Doe', 30);
+END
+GO

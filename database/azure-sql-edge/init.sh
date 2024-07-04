@@ -2,9 +2,7 @@
 
 ## Args passable as parameters
 MSSQL_SEED_DELAY=${1:-20s}
-MSSQL_USERNAME=${3:-sa}
-MSSQL_DATABASE=${3:-master}
-MSSQL_IMPORT=${4:-/docker-entrypoint-initdb.d/db.sql}
+MSSQL_SEED_SCRIPT=${4:-/docker-entrypoint-initdb.d/database/azure-sql-edge/db.sql}
 
 ## Start SQL Server
 /opt/mssql/bin/sqlservr &
@@ -13,7 +11,7 @@ MSSQL_IMPORT=${4:-/docker-entrypoint-initdb.d/db.sql}
 sleep ${MSSQL_SEED_DELAY}
 
 # Run the SQL script
-/opt/mssql-tools/bin/sqlcmd -S ${MSSQL_HOST},${MSSQL_PORT} -U ${MSSQL_USERNAME} -P ${MSSQL_SA_PASSWORD} -d ${MSSQL_DATABASE} -i ${MSSQL_IMPORT}
+/opt/mssql-tools/bin/sqlcmd -S ${MSSQL_SERVER_HOST},${MSSQL_SERVER_PORT} -U ${MSSQL_USER} -P ${MSSQL_SA_PASSWORD} -d ${MSSQL_DATABASE} -i ${MSSQL_SEED_SCRIPT}
 
 echo "SQL Server setup complete"
 
